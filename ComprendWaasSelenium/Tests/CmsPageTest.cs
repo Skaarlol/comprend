@@ -13,18 +13,18 @@ namespace ComprendWaasSelenium.Tests
         readonly Random _random = new();
 
         [SetUp]
-        public void Setup()
+        public new void Setup()
         {
             _pageObject = new CmsPage(Driver);
             _pageObject.TryNavigateTo("https://iridium-cms.test.waas.site/");
-            _pageObject.loginCredentials();
+            _pageObject.LoginCredentials();
         }
 
         
         [Test]
         public void UpdateHeading()
         {
-            string date = DateTime.Now.ToString();
+            var date = DateTime.Now.ToString();
 
             _pageObject
                 .SearchForPage("SeleniumTestPage")
@@ -111,7 +111,7 @@ namespace ComprendWaasSelenium.Tests
                 .ClickOnSettings()
                 .UpdateUrl(randomUrl)
                 .PublishPage()
-                .RefreshandGoToPage(page)
+                .RefreshAndGoToPage(page)
                 .ClickPreview()
                 .ReadUrl()
                 .Should()
