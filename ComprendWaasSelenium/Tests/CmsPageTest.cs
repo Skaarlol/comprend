@@ -146,12 +146,11 @@ namespace ComprendWaasSelenium.Tests
                 .ClickAboutSelenium()
                 .ClickMenuActionAboutSelenium("New")
                 .ClickNewPageGroup("STANDARD PAGE")
-                .EnterNewStandardPageName("CreateNewStandardPage")
-                .RefreshAndGoToPage(page)
+                .EnterNewStandardPageName("CreateNewStandardPageSelenium")
                 .ClickSettings()
-                .ReadPageName()
+                .ReadUrl()
                 .Should()
-                .ContainEquivalentOf("CreateNewStandardPage");
+                .ContainEquivalentOf("CreateNewStandardPageSelenium");
         }
 
         [Test, Order(2)]

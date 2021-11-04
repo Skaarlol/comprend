@@ -14,14 +14,14 @@ namespace ComprendWaasSelenium.PageObjects
         private readonly By _usersElement = By.XPath("//*[@data-id='/users']");
         private readonly By _lastNameElement = By.XPath("//*[@data-id='org']");
         private readonly By _addActionButtonElement = By.ClassName("add-button");
-        private readonly By _newPageNameElement = By.XPath("//input[@data-id='_name']");
+        private readonly By _newPageNameInputElement = By.XPath("//input[@data-id='_name']");
         private readonly By _adminElement = By.XPath("//div[@id = 'mainnav']/a[2]");
         private readonly By _urlSlugElement = By.XPath("//input[@data-id='_slug']");
-        private readonly By _AboutSeleniumElement = By.XPath("//li[@data-id='127']");
+        private readonly By _aboutSeleniumElement = By.XPath("//li[@data-id='127']");
         private readonly By _pageIssuesElement = By.ClassName("fa-exclamation-circle");
         private readonly By _settingsElement = By.XPath("//*[@id = 'settings']/button");
         private readonly By _saveElement = By.XPath("//button[@class ='primary']/span");
-        private readonly By _MewPageListElement = By.XPath("//*[@class='blocklinks']/a");
+        private readonly By _mewPageListElement = By.XPath("//*[@class='blocklinks']/a");
         private readonly By _addBlockPageHeadingElement = By.XPath("//*[@id='_130-1']/div/h1");
         private readonly By _searchTreeElement = By.XPath("//div[@class = 'searchtree']/input");
         private readonly By _styleListAllDataElement = By.XPath("//*[@alldata='[object Object]']");
@@ -187,7 +187,7 @@ namespace ComprendWaasSelenium.PageObjects
 
         public CmsPage ClickAboutSelenium()
         {
-            _driver.FindElement(_AboutSeleniumElement).Click();
+            _driver.FindElement(_aboutSeleniumElement).Click();
             return this;
         }
 
@@ -257,9 +257,8 @@ namespace ComprendWaasSelenium.PageObjects
 
         public CmsPage ClickNewPageGroup(string newPage)
         {
-            foreach (var element in _driver.FindElements(_MewPageListElement))
+            foreach (var element in _driver.FindElements(_mewPageListElement))
             {
-                string testText = element.Text;
                 if (element.Text == newPage)
                 {
                     element.Click();
@@ -272,14 +271,9 @@ namespace ComprendWaasSelenium.PageObjects
 
         public CmsPage EnterNewStandardPageName(string pageName)
         {
-            _driver.FindElement(_newPageNameElement).SendKeys(pageName);
+            _driver.FindElement(_newPageNameInputElement).SendKeys(pageName);
             _driver.FindElement(_newPageSave).Click();
             return this;
-        }
-
-        public string ReadPageName()
-        {
-            return _driver.FindElement(_newPageNameElement).Text;
         }
     }
 }
