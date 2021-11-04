@@ -14,27 +14,30 @@ namespace ComprendWaasSelenium.PageObjects
         private readonly By _usersElement = By.XPath("//*[@data-id='/users']");
         private readonly By _lastNameElement = By.XPath("//*[@data-id='org']");
         private readonly By _addActionButtonElement = By.ClassName("add-button");
-        private readonly By _newPageNameInputElement = By.XPath("//input[@data-id='_name']");
         private readonly By _adminElement = By.XPath("//div[@id = 'mainnav']/a[2]");
         private readonly By _urlSlugElement = By.XPath("//input[@data-id='_slug']");
-        private readonly By _aboutSeleniumElement = By.XPath("//li[@data-id='127']");
+        private readonly By _aboutSeleniumElement = By.XPath("//li[@data-id='146']");
         private readonly By _pageIssuesElement = By.ClassName("fa-exclamation-circle");
         private readonly By _settingsElement = By.XPath("//*[@id = 'settings']/button");
         private readonly By _saveElement = By.XPath("//button[@class ='primary']/span");
         private readonly By _mewPageListElement = By.XPath("//*[@class='blocklinks']/a");
+        private readonly By _expandAboutSeleniumElement = By.XPath("//li[@data-id='146']/i");
+        private readonly By _newPageNameInputElement = By.XPath("//input[@data-id='_name']");
         private readonly By _addBlockPageHeadingElement = By.XPath("//*[@id='_130-1']/div/h1");
         private readonly By _searchTreeElement = By.XPath("//div[@class = 'searchtree']/input");
         private readonly By _styleListAllDataElement = By.XPath("//*[@alldata='[object Object]']");
         private readonly By _seleniumTestPageHeadingElement = By.XPath("//*[@id='_128-1']/div/h1");
-        private readonly By _menuActionAboutSeleniumElement = By.XPath("//li[@data-id='127']/a/i[2]");
+        private readonly By _menuActionAboutSeleniumElement = By.XPath("//li[@data-id='146']/a/i[2]");
         private readonly By _editBlockElement = By.XPath("//a[@class = 'action-button edit-button']");
         private readonly By _menuActionOptionsElement = By.XPath("//*[@class='contextmenu popup']/a");
         private readonly By _editOkElement = By.XPath("//*[@id='editdialog']//button[@class='primary']");
-        private readonly By _previewElement = By.XPath("//span[contains(text(), 'Preview')]//ancestor::a");
         private readonly By _newPageSave = By.XPath("//*[@id='newPagePopup']//button[@class='primary']");
+        private readonly By _previewElement = By.XPath("//span[contains(text(), 'Preview')]//ancestor::a");
+        private readonly By _TrashSeleniumPageElement = By.XPath("//span[contains(text(), 'TrashSelenium')]");
         private readonly By _blockStylesElement = By.XPath("//*[@class='textfield checkboxlist autoheight']/label");
         private readonly By _brokenLinksOrImagesElement = By.XPath("//*[@id='edit-tools']/div[2]/div/h2[1]/span/span");
         private readonly By _discardChangesElement = By.XPath("//span[contains(text(), 'Discard changes')]//parent::button");
+        private readonly By _createNewStandardPageSeleniumElement = By.XPath("//span[contains(text(), 'CreateNewStandardPageSelenium')]");
 
 
         internal void TryNavigateTo(string pageUrl)
@@ -191,6 +194,12 @@ namespace ComprendWaasSelenium.PageObjects
             return this;
         }
 
+        public CmsPage ClickTrashSelenium()
+        {
+            _driver.FindElement(_TrashSeleniumPageElement).Click();
+            return this;
+        }
+
         public CmsPage ClickPreview()
         {
             Thread.Sleep(500);
@@ -273,6 +282,24 @@ namespace ComprendWaasSelenium.PageObjects
         {
             _driver.FindElement(_newPageNameInputElement).SendKeys(pageName);
             _driver.FindElement(_newPageSave).Click();
+            return this;
+        }
+
+        public CmsPage ClickExpandAboutSelenium()
+        {
+            _driver.FindElement(_expandAboutSeleniumElement).Click();
+            return this;
+        }
+
+        public CmsPage ClickPageToDelete()
+        {
+            _driver.FindElement(_createNewStandardPageSeleniumElement).Click();
+            return this;
+        }
+
+        public CmsPage ClickOkToDelete()
+        {
+            _driver.SwitchTo().Alert().Accept();
             return this;
         }
     }

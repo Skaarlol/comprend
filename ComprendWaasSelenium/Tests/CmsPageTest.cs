@@ -99,7 +99,7 @@ namespace ComprendWaasSelenium.Tests
                 .ClickOkEditBlock()
                 .CheckBlockBackground()
                 .Should()
-                .ContainEquivalentOf("rgba(63, 42, 72, 1)");
+                .Be("rgba(63, 42, 72, 1)");
         }
 
         [Test]
@@ -114,7 +114,7 @@ namespace ComprendWaasSelenium.Tests
                 .ClickOkEditBlock()
                 .CheckBlockBackground()
                 .Should()
-                .ContainEquivalentOf("rgba(231, 231, 231, 1)");
+                .Be("rgba(231, 231, 231, 1)");
         }
 
         [Test]
@@ -139,11 +139,9 @@ namespace ComprendWaasSelenium.Tests
         [Test, Order(1)]
         public void CreateNewStandardPage()
         {
-            var randomUrl = _random.Next(0, 1000).ToString();
-            const string page = "SeleniumTestPage";
-
             _pageObject
-                .ClickAboutSelenium()
+                .ClickExpandAboutSelenium()
+                .ClickTrashSelenium()
                 .ClickMenuActionAboutSelenium("New")
                 .ClickNewPageGroup("STANDARD PAGE")
                 .EnterNewStandardPageName("CreateNewStandardPageSelenium")
@@ -156,19 +154,14 @@ namespace ComprendWaasSelenium.Tests
         [Test, Order(2)]
         public void DeleteStandardPage()
         {
-            var randomUrl = _random.Next(0, 1000).ToString();
-            const string page = "SeleniumTestPage";
-
             _pageObject
-                .ClickAboutSelenium()
+                .ClickExpandAboutSelenium()
+                .ClickPageToDelete()
                 .ClickMenuActionAboutSelenium("Delete")
-                .UpdateUrl(randomUrl)
-                .PublishPage()
-                .RefreshAndGoToPage(page)
-                .ClickPreview()
+                .ClickOkToDelete()
                 .ReadUrl()
                 .Should()
-                .ContainEquivalentOf(randomUrl);
+                .Be("https://iridium-cms.test.waas.site/");
         }
 
     }
