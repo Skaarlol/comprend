@@ -3,6 +3,7 @@ using ComprendWaasSelenium.PageObjects;
 using FluentAssertions;
 using NUnit.Framework;
 using System;
+using System.Globalization;
 
 namespace ComprendWaasSelenium.Tests
 {
@@ -24,11 +25,11 @@ namespace ComprendWaasSelenium.Tests
         [Test]
         public void UpdateHeading()
         {
-            var date = DateTime.Now.ToString();
+            var date = DateTime.Now.ToString(CultureInfo.CurrentCulture);
 
             _pageObject
                 .SearchForPage("SeleniumTestPage")
-                .ClickOnSearchedPage()
+                .ClickSearchedPage()
                 .SwitchToEditFrame()
                 .UpdateHeading(date)
                 .PublishPage()
@@ -39,12 +40,29 @@ namespace ComprendWaasSelenium.Tests
         }
 
         [Test]
+        public void DiscardChanges()
+        {
+            var date = DateTime.Now.ToString(CultureInfo.CurrentCulture);
+
+            _pageObject
+                .SearchForPage("SeleniumTestPage")
+                .ClickSearchedPage()
+                .SwitchToEditFrame()
+                .UpdateHeading(date)
+                .ClickDiscardChanges()
+                .SwitchToEditFrame()
+                .ReadHeading()
+                .Should()
+                .NotBeEquivalentTo(date);
+        }
+
+        [Test]
         public void BrokenLinksOrImagesShouldShowZero()
         {
             _pageObject
                 .SearchForPage("SeleniumTestPage")
-                .ClickOnSearchedPage()
-                .ClickOnPageIssues()
+                .ClickSearchedPage()
+                .ClickPageIssues()
                 .ReadBrokenLinksOrImagesIssuesCounter()
                 .Should()
                 .Be(0);
@@ -74,7 +92,7 @@ namespace ComprendWaasSelenium.Tests
         {
             _pageObject
                 .SearchForPage("AddBlockPage")
-                .ClickOnSearchedPage()
+                .ClickSearchedPage()
                 .SwitchToEditFrame()
                 .ClickEditBlock()
                 .ClickStyle("Dark")
@@ -89,7 +107,7 @@ namespace ComprendWaasSelenium.Tests
         {
             _pageObject
                 .SearchForPage("AddBlockPage")
-                .ClickOnSearchedPage()
+                .ClickSearchedPage()
                 .SwitchToEditFrame()
                 .ClickEditBlock()
                 .ClickStyle("Gray")
@@ -107,8 +125,44 @@ namespace ComprendWaasSelenium.Tests
 
             _pageObject
                 .SearchForPage(page)
-                .ClickOnSearchedPage()
-                .ClickOnSettings()
+                .ClickSearchedPage()
+                .ClickSettings()
+                .UpdateUrl(randomUrl)
+                .PublishPage()
+                .RefreshAndGoToPage(page)
+                .ClickPreview()
+                .ReadUrl()
+                .Should()
+                .ContainEquivalentOf(randomUrl);
+        }
+
+        [Test, Order(1)]
+        public void CreateNewStandardPage()
+        {
+            var randomUrl = _random.Next(0, 1000).ToString();
+            const string page = "SeleniumTestPage";
+
+            _pageObject
+                .ClickAboutSelenium()
+                .ClickMenuActionAboutSelenium("New")
+                .ClickNewPageGroup("STANDARD PAGE")
+                .EnterNewStandardPageName("CreateNewStandardPage")
+                .RefreshAndGoToPage(page)
+                .ClickSettings()
+                .ReadPageName()
+                .Should()
+                .ContainEquivalentOf("CreateNewStandardPage");
+        }
+
+        [Test, Order(2)]
+        public void DeleteStandardPage()
+        {
+            var randomUrl = _random.Next(0, 1000).ToString();
+            const string page = "SeleniumTestPage";
+
+            _pageObject
+                .ClickAboutSelenium()
+                .ClickMenuActionAboutSelenium("Delete")
                 .UpdateUrl(randomUrl)
                 .PublishPage()
                 .RefreshAndGoToPage(page)
