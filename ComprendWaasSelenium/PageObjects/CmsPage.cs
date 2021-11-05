@@ -11,33 +11,31 @@ namespace ComprendWaasSelenium.PageObjects
         private readonly By _blockContentElement = By.Id("mce_0");
         private readonly By _publishElement = By.ClassName("primary");
         private readonly By _searchHitElement = By.ClassName("searchhit");
-        private readonly By _usersElement = By.XPath("//*[@data-id='/users']");
         private readonly By _lastNameElement = By.XPath("//*[@data-id='org']");
-        private readonly By _addActionButtonElement = By.ClassName("add-button");
-        private readonly By _adminElement = By.XPath("//div[@id = 'mainnav']/a[2]");
         private readonly By _urlSlugElement = By.XPath("//input[@data-id='_slug']");
-        private readonly By _aboutSeleniumElement = By.XPath("//li[@data-id='146']");
         private readonly By _pageIssuesElement = By.ClassName("fa-exclamation-circle");
         private readonly By _settingsElement = By.XPath("//*[@id = 'settings']/button");
         private readonly By _saveElement = By.XPath("//button[@class ='primary']/span");
         private readonly By _mewPageListElement = By.XPath("//*[@class='blocklinks']/a");
-        private readonly By _expandAboutSeleniumElement = By.XPath("//li[@data-id='146']/i");
+        private readonly By _expandAboutSeleniumElement = By.XPath("//li[@data-id='152']/i");
+        private readonly By _expandTrashSeleniumElementt = By.XPath("//li[@data-id='153']/i");
         private readonly By _newPageNameInputElement = By.XPath("//input[@data-id='_name']");
-        private readonly By _addBlockPageHeadingElement = By.XPath("//*[@id='_130-1']/div/h1");
         private readonly By _searchTreeElement = By.XPath("//div[@class = 'searchtree']/input");
         private readonly By _styleListAllDataElement = By.XPath("//*[@alldata='[object Object]']");
-        private readonly By _seleniumTestPageHeadingElement = By.XPath("//*[@id='_128-1']/div/h1");
-        private readonly By _menuActionAboutSeleniumElement = By.XPath("//li[@data-id='146']/a/i[2]");
+        private readonly By _seleniumTestPageHeadingElement = By.XPath("//*[@id='_154-1']/div/h1");
+        private readonly By _menuActionAboutSeleniumElement = By.XPath("//li[@data-id='152']/a/i[2]");
+        private readonly By _menuActionTrashSeleniumElement = By.XPath("//li[@data-id='153']/a/i[2]");
         private readonly By _editBlockElement = By.XPath("//a[@class = 'action-button edit-button']");
         private readonly By _menuActionOptionsElement = By.XPath("//*[@class='contextmenu popup']/a");
         private readonly By _editOkElement = By.XPath("//*[@id='editdialog']//button[@class='primary']");
         private readonly By _newPageSave = By.XPath("//*[@id='newPagePopup']//button[@class='primary']");
         private readonly By _previewElement = By.XPath("//span[contains(text(), 'Preview')]//ancestor::a");
-        private readonly By _TrashSeleniumPageElement = By.XPath("//span[contains(text(), 'TrashSelenium')]");
+        private readonly By _trashSeleniumPageElement = By.XPath("//span[contains(text(), 'TrashSelenium')]");
         private readonly By _blockStylesElement = By.XPath("//*[@class='textfield checkboxlist autoheight']/label");
         private readonly By _brokenLinksOrImagesElement = By.XPath("//*[@id='edit-tools']/div[2]/div/h2[1]/span/span");
         private readonly By _discardChangesElement = By.XPath("//span[contains(text(), 'Discard changes')]//parent::button");
-        private readonly By _createNewStandardPageSeleniumElement = By.XPath("//span[contains(text(), 'CreateNewStandardPageSelenium')]");
+        private readonly By _newStandardPageSeleniumElement = By.XPath("//span[contains(text(), 'NewStandardPageSelenium')]");
+        private readonly By _menuActionNewStandardPageElement = By.XPath("//span[contains(text(), 'NewStandardPageSelenium')]//following-sibling::i");
 
 
         internal void TryNavigateTo(string pageUrl)
@@ -98,37 +96,21 @@ namespace ComprendWaasSelenium.PageObjects
             return counter;
         }
 
-        public string ReadLastName()
-        {
-            return _driver.FindElement(_lastNameElement).Text;
-        }
-
         public CmsPage SearchForPage(string page)
         {
             _driver.FindElement(_searchTreeElement).SendKeys(page);
             return this;
         }
 
-        public CmsPage ClickSave()
-        {
-            _driver.FindElement(_saveElement).Click();
-            return this;
-        }
-
         public CmsPage ClickEditBlock()
         {
             var actions = new Actions(_driver);
-            var target = _driver.FindElement(_addBlockPageHeadingElement);
+            var target = _driver.FindElement(_seleniumTestPageHeadingElement);
             actions.MoveToElement(target).Perform();
             _driver.FindElement(_editBlockElement).Click();
             return this;
         }
 
-        public CmsPage ClickAddAction()
-        {
-            _driver.FindElement(_addActionButtonElement).Click();
-            return this;
-        }
         public CmsPage ClickOkEditBlock()
         {
             _driver.FindElement(_editOkElement).Click();
@@ -176,27 +158,9 @@ namespace ComprendWaasSelenium.PageObjects
             return this;
         }
 
-        public CmsPage ClickUsers()
-        {
-            _driver.FindElement(_usersElement).Click();
-            return this;
-        }
-
-        public CmsPage ClickAdmin()
-        {
-            _driver.FindElement(_adminElement).Click();
-            return this;
-        }
-
-        public CmsPage ClickAboutSelenium()
-        {
-            _driver.FindElement(_aboutSeleniumElement).Click();
-            return this;
-        }
-
         public CmsPage ClickTrashSelenium()
         {
-            _driver.FindElement(_TrashSeleniumPageElement).Click();
+            _driver.FindElement(_trashSeleniumPageElement).Click();
             return this;
         }
 
@@ -264,6 +228,36 @@ namespace ComprendWaasSelenium.PageObjects
             return this;
         }
 
+        public CmsPage ClickMenuActionTrashSelenium(string action)
+        {
+            _driver.FindElement(_menuActionTrashSeleniumElement).Click();
+            foreach (var element in _driver.FindElements(_menuActionOptionsElement))
+            {
+                if (element.Text == action)
+                {
+                    element.Click();
+                    break;
+                }
+
+            }
+            return this;
+        }
+
+        public CmsPage ClickMenuActionNewStandardPageSelenium(string action)
+        {
+            _driver.FindElement(_menuActionNewStandardPageElement).Click();
+            foreach (var element in _driver.FindElements(_menuActionOptionsElement))
+            {
+                if (element.Text == action)
+                {
+                    element.Click();
+                    break;
+                }
+
+            }
+            return this;
+        }
+
         public CmsPage ClickNewPageGroup(string newPage)
         {
             foreach (var element in _driver.FindElements(_mewPageListElement))
@@ -291,15 +285,22 @@ namespace ComprendWaasSelenium.PageObjects
             return this;
         }
 
+        public CmsPage ClickExpandTrashSelenium()
+        {
+            _driver.FindElement(_expandTrashSeleniumElementt).Click();
+            return this;
+        }
+
         public CmsPage ClickPageToDelete()
         {
-            _driver.FindElement(_createNewStandardPageSeleniumElement).Click();
+            _driver.FindElement(_newStandardPageSeleniumElement).Click();
             return this;
         }
 
         public CmsPage ClickOkToDelete()
         {
             _driver.SwitchTo().Alert().Accept();
+            Thread.Sleep(1000);
             return this;
         }
     }

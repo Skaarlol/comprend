@@ -68,30 +68,11 @@ namespace ComprendWaasSelenium.Tests
                 .Be(0);
         }
 
-        //not done
-        [Ignore("")]
-        [Test]
-        public void ChangeLastName()
-        {
-            DateTime dt = DateTime.Today;
-            var day = dt.DayOfWeek.ToString();
-
-            _pageObject
-                .ClickAdmin()
-                .ClickUsers()
-                .ChooseUser("Silas")
-                .ChangeLastName(day)
-                .ClickSave()
-                .ReadLastName()
-                .Should()
-                .ContainEquivalentOf(day);
-        }
-
         [Test]
         public void BlockStylesDark()
         {
             _pageObject
-                .SearchForPage("AddBlockPage")
+                .SearchForPage("SeleniumTestPage")
                 .ClickSearchedPage()
                 .SwitchToEditFrame()
                 .ClickEditBlock()
@@ -106,7 +87,7 @@ namespace ComprendWaasSelenium.Tests
         public void BlockStylesGray()
         {
             _pageObject
-                .SearchForPage("AddBlockPage")
+                .SearchForPage("SeleniumTestPage")
                 .ClickSearchedPage()
                 .SwitchToEditFrame()
                 .ClickEditBlock()
@@ -121,15 +102,14 @@ namespace ComprendWaasSelenium.Tests
         public void UpdateUrl()
         {
             var randomUrl = _random.Next(0, 1000).ToString();
-            const string page = "SeleniumTestPage";
 
             _pageObject
-                .SearchForPage(page)
+                .SearchForPage("SeleniumTestPage")
                 .ClickSearchedPage()
                 .ClickSettings()
                 .UpdateUrl(randomUrl)
                 .PublishPage()
-                .RefreshAndGoToPage(page)
+                .RefreshAndGoToPage("SeleniumTestPage")
                 .ClickPreview()
                 .ReadUrl()
                 .Should()
@@ -142,13 +122,13 @@ namespace ComprendWaasSelenium.Tests
             _pageObject
                 .ClickExpandAboutSelenium()
                 .ClickTrashSelenium()
-                .ClickMenuActionAboutSelenium("New")
+                .ClickMenuActionTrashSelenium("New")
                 .ClickNewPageGroup("STANDARD PAGE")
-                .EnterNewStandardPageName("CreateNewStandardPageSelenium")
+                .EnterNewStandardPageName("NewStandardPageSelenium")
                 .ClickSettings()
                 .ReadUrl()
                 .Should()
-                .ContainEquivalentOf("CreateNewStandardPageSelenium");
+                .ContainEquivalentOf("NewStandardPageSelenium");
         }
 
         [Test, Order(2)]
@@ -156,8 +136,9 @@ namespace ComprendWaasSelenium.Tests
         {
             _pageObject
                 .ClickExpandAboutSelenium()
+                .ClickExpandTrashSelenium()
                 .ClickPageToDelete()
-                .ClickMenuActionAboutSelenium("Delete")
+                .ClickMenuActionNewStandardPageSelenium("Delete")
                 .ClickOkToDelete()
                 .ReadUrl()
                 .Should()
