@@ -28,7 +28,7 @@ namespace ComprendWaasSelenium.Tests
             var date = DateTime.Now.ToString(CultureInfo.CurrentCulture);
 
             _pageObject
-                .SearchForPage("SeleniumTestPage")
+                .SearchForPage("SeleniumTestStandardPage")
                 .ClickSearchedPage()
                 .SwitchToEditFrame()
                 .UpdateHeading(date)
@@ -45,7 +45,7 @@ namespace ComprendWaasSelenium.Tests
             var date = DateTime.Now.ToString(CultureInfo.CurrentCulture);
 
             _pageObject
-                .SearchForPage("SeleniumTestPage")
+                .SearchForPage("SeleniumTestStandardPage")
                 .ClickSearchedPage()
                 .SwitchToEditFrame()
                 .UpdateHeading(date)
@@ -60,7 +60,7 @@ namespace ComprendWaasSelenium.Tests
         public void BrokenLinksOrImagesShouldShowZero()
         {
             _pageObject
-                .SearchForPage("SeleniumTestPage")
+                .SearchForPage("SeleniumTestStandardPage")
                 .ClickSearchedPage()
                 .ClickPageIssues()
                 .ReadBrokenLinksOrImagesIssuesCounter()
@@ -72,7 +72,7 @@ namespace ComprendWaasSelenium.Tests
         public void BlockStylesDark()
         {
             _pageObject
-                .SearchForPage("SeleniumTestPage")
+                .SearchForPage("SeleniumTestStandardPage")
                 .ClickSearchedPage()
                 .SwitchToEditFrame()
                 .ClickEditBlock()
@@ -87,7 +87,7 @@ namespace ComprendWaasSelenium.Tests
         public void BlockStylesGray()
         {
             _pageObject
-                .SearchForPage("SeleniumTestPage")
+                .SearchForPage("SeleniumTestStandardPage")
                 .ClickSearchedPage()
                 .SwitchToEditFrame()
                 .ClickEditBlock()
@@ -104,12 +104,12 @@ namespace ComprendWaasSelenium.Tests
             var randomUrl = _random.Next(0, 1000).ToString();
 
             _pageObject
-                .SearchForPage("SeleniumTestPage")
+                .SearchForPage("SeleniumTestStandardPage")
                 .ClickSearchedPage()
                 .ClickSettings()
                 .UpdateUrl(randomUrl)
                 .PublishPage()
-                .RefreshAndGoToPage("SeleniumTestPage")
+                .RefreshAndGoToPage("SeleniumTestStandardPage")
                 .ClickPreview()
                 .ReadUrl()
                 .Should()
@@ -143,6 +143,21 @@ namespace ComprendWaasSelenium.Tests
                 .ReadUrl()
                 .Should()
                 .Be("https://iridium-cms.test.waas.site/");
+        }
+
+        [Test]
+        public void AddNewBlock()
+        {
+            _pageObject
+                .SearchForPage("AddBlockStandardPage")
+                .ClickSearchedPage()
+                .SwitchToEditFrame()
+                .ClickAddBlock()
+                .ClickStyle("Dark")
+                .ClickOkEditBlock()
+                .CheckBlockBackground()
+                .Should()
+                .Be("rgba(63, 42, 72, 1)");
         }
 
     }

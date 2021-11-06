@@ -23,9 +23,11 @@ namespace ComprendWaasSelenium.PageObjects
         private readonly By _searchTreeElement = By.XPath("//div[@class = 'searchtree']/input");
         private readonly By _styleListAllDataElement = By.XPath("//*[@alldata='[object Object]']");
         private readonly By _seleniumTestPageHeadingElement = By.XPath("//*[@id='_154-1']/div/h1");
+        private readonly By _PageHeadingElement = By.XPath("//h1[contains(text(), 'Heading')]");
         private readonly By _menuActionAboutSeleniumElement = By.XPath("//li[@data-id='152']/a/i[2]");
         private readonly By _menuActionTrashSeleniumElement = By.XPath("//li[@data-id='153']/a/i[2]");
         private readonly By _editBlockElement = By.XPath("//a[@class = 'action-button edit-button']");
+        private readonly By _addBlockElement = By.XPath("//*[@id='_162 - 1']/a[2]");
         private readonly By _menuActionOptionsElement = By.XPath("//*[@class='contextmenu popup']/a");
         private readonly By _editOkElement = By.XPath("//*[@id='editdialog']//button[@class='primary']");
         private readonly By _newPageSave = By.XPath("//*[@id='newPagePopup']//button[@class='primary']");
@@ -105,9 +107,16 @@ namespace ComprendWaasSelenium.PageObjects
         public CmsPage ClickEditBlock()
         {
             var actions = new Actions(_driver);
-            var target = _driver.FindElement(_seleniumTestPageHeadingElement);
-            actions.MoveToElement(target).Perform();
+            actions.MoveToElement(_driver.FindElement(_seleniumTestPageHeadingElement)).Perform();
             _driver.FindElement(_editBlockElement).Click();
+            return this;
+        }
+
+        public CmsPage ClickAddBlock()
+        {
+            var actions = new Actions(_driver);
+            actions.MoveToElement(_driver.FindElement(_PageHeadingElement)).Perform();
+            _driver.FindElement(_addBlockElement).Click();
             return this;
         }
 
