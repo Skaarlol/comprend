@@ -78,7 +78,7 @@ namespace ComprendWaasSelenium.Tests
                 .ClickEditBlock()
                 .ClickStyle("Dark")
                 .ClickOkEditBlock()
-                .CheckBlockBackground()
+                .CheckBlockBackgroundColor()
                 .Should()
                 .Be("rgba(63, 42, 72, 1)");
         }
@@ -93,7 +93,7 @@ namespace ComprendWaasSelenium.Tests
                 .ClickEditBlock()
                 .ClickStyle("Gray")
                 .ClickOkEditBlock()
-                .CheckBlockBackground()
+                .CheckBlockBackgroundColor()
                 .Should()
                 .Be("rgba(231, 231, 231, 1)");
         }
@@ -131,7 +131,7 @@ namespace ComprendWaasSelenium.Tests
                 .ContainEquivalentOf("NewStandardPageSelenium");
         }
 
-        [Test, Order(2)]
+        [Test, Order(1000)]
         public void DeleteStandardPage()
         {
             _pageObject
@@ -145,19 +145,20 @@ namespace ComprendWaasSelenium.Tests
                 .Be("https://iridium-cms.test.waas.site/");
         }
 
-        [Test]
-        public void AddNewBlock()
+        [Test, Order(2)]
+        public void AddNewBlockTable()
         {
             _pageObject
-                .SearchForPage("AddBlockStandardPage")
+                .SearchForPage("NewStandardPageSelenium")
                 .ClickSearchedPage()
                 .SwitchToEditFrame()
                 .ClickAddBlock()
-                .ClickStyle("Dark")
-                .ClickOkEditBlock()
-                .CheckBlockBackground()
+                .ClickBlockType("Table")
+                .ClickTableSize("20", "20")
+                .SwitchToEditFrame()
+                .CheckIfElementExist("table")
                 .Should()
-                .Be("rgba(63, 42, 72, 1)");
+                .Be(true);
         }
 
     }
