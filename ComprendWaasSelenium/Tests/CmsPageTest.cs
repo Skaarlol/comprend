@@ -153,7 +153,7 @@ namespace ComprendWaasSelenium.Tests
                 .ClickSearchedPage()
                 .SwitchToEditFrame()
                 .ClickAddBlock()
-                .ClickStyle("Dark")
+                .ClickStyle("Test")
                 .ClickOkEditBlock()
                 .CheckBlockBackground()
                 .Should()
