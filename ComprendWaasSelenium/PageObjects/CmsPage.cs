@@ -8,7 +8,7 @@ namespace ComprendWaasSelenium.PageObjects
     public class CmsPage
     {
         private readonly IWebDriver _driver;
-        private readonly By _blockContentElement = By.Id("mce_0");
+        private readonly By _blockContentElement = By.ClassName("mce-content-body");
         private readonly By _publishElement = By.ClassName("primary");
         private readonly By _searchHitElement = By.ClassName("searchhit");
         private readonly By _lastNameElement = By.XPath("//*[@data-id='org']");
@@ -23,11 +23,11 @@ namespace ComprendWaasSelenium.PageObjects
         private readonly By _searchTreeElement = By.XPath("//div[@class = 'searchtree']/input");
         private readonly By _styleListAllDataElement = By.XPath("//*[@alldata='[object Object]']");
         private readonly By _seleniumTestPageHeadingElement = By.XPath("//*[@id='_154-1']/div/h1");
-        private readonly By _PageHeadingElement = By.XPath("//h1[contains(text(), 'Heading')]");
+        private readonly By _pageHeadingElement = By.XPath("//h1[contains(text(), 'Heading')]");
         private readonly By _menuActionAboutSeleniumElement = By.XPath("//li[@data-id='152']/a/i[2]");
         private readonly By _menuActionTrashSeleniumElement = By.XPath("//li[@data-id='153']/a/i[2]");
         private readonly By _editBlockElement = By.XPath("//a[@class = 'action-button edit-button']");
-        private readonly By _addBlockElement = By.XPath("//*[@id='_162 - 1']/a[2]");
+        private readonly By _addBlockElement = By.Id("insertionpoint");
         private readonly By _menuActionOptionsElement = By.XPath("//*[@class='contextmenu popup']/a");
         private readonly By _editOkElement = By.XPath("//*[@id='editdialog']//button[@class='primary']");
         private readonly By _newPageSave = By.XPath("//*[@id='newPagePopup']//button[@class='primary']");
@@ -90,6 +90,28 @@ namespace ComprendWaasSelenium.PageObjects
         {
             return _driver.FindElement(_seleniumTestPageHeadingElement).Text;
         }
+
+        public CmsPage ClickTableSize(string y, string x)
+        {
+            _driver.FindElement(By.XPath("//*[@id='newtable']/div[" + y + "]/ span[" + x + "]")).Click();
+            return this;
+        }
+
+        public bool CheckIfElementExist(string element)
+        {
+            if (IsElementPresent(By.XPath("//*[@class='_block-content _editable mce-content-body mce-edit-focus']/" + element)))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public CmsPage ClickBlockType(string block)
+        {
+            _driver.FindElement(By.XPath("//a[contains(text(), '" + block + "')]")).Click();
+            return this;
+        }
+
         public int ReadBrokenLinksOrImagesIssuesCounter()
         {
             Thread.Sleep(1000);
@@ -115,7 +137,8 @@ namespace ComprendWaasSelenium.PageObjects
         public CmsPage ClickAddBlock()
         {
             var actions = new Actions(_driver);
-            actions.MoveToElement(_driver.FindElement(_PageHeadingElement)).Perform();
+            actions.MoveToElement(_driver.FindElement(_pageHeadingElement)).Perform();
+            _driver.SwitchTo().ParentFrame();
             _driver.FindElement(_addBlockElement).Click();
             return this;
         }
@@ -188,7 +211,7 @@ namespace ComprendWaasSelenium.PageObjects
             return this;
         }
 
-        public string CheckBlockBackground()
+        public string CheckBlockBackgroundColor()
         {
             _driver.SwitchTo().Frame("editframe");
             var element = _driver.FindElement(_blockContentElement).GetCssValue("background-color");
@@ -311,6 +334,19 @@ namespace ComprendWaasSelenium.PageObjects
             _driver.SwitchTo().Alert().Accept();
             Thread.Sleep(1000);
             return this;
+        }
+
+        private bool IsElementPresent(By by)
+        {
+            try
+            {
+                _driver.FindElement(by);
+                return true;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
         }
     }
 }
