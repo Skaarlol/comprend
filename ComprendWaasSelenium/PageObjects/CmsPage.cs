@@ -91,7 +91,7 @@ namespace ComprendWaasSelenium.PageObjects
             return _driver.FindElement(_seleniumTestPageHeadingElement).Text;
         }
 
-        public CmsPage ClickTableSize(string y, string x)
+        public CmsPage ClickTableSize(string x, string y)
         {
             _driver.FindElement(By.XPath("//*[@id='newtable']/div[" + y + "]/ span[" + x + "]")).Click();
             return this;
@@ -99,11 +99,7 @@ namespace ComprendWaasSelenium.PageObjects
 
         public bool CheckIfElementExist(string element)
         {
-            if (IsElementPresent(By.XPath("//*[@class='_block-content _editable mce-content-body mce-edit-focus']/" + element)))
-            {
-                return true;
-            }
-            return false;
+            return IsElementPresent(By.XPath("//*[@class='_block-content _editable mce-content-body mce-edit-focus']/" + element));
         }
 
         public CmsPage ClickBlockType(string block)
